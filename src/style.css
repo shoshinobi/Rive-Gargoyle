@@ -1,308 +1,249 @@
-/**
- * ============================================
- * RIVE GARGOYLE - Main Stylesheet
- * ============================================
- * 
- * Layout Structure:
- * - Two-column flexbox layout
- * - Left: Square aspect ratio canvas (full viewport height)
- * - Right: Scrollable controls sidebar
- */
+/* Rive Gargoyle - Styles
+   Modern Google Material-inspired design */
 
-/* ============================================
-   CSS RESET & BASE STYLES
-   ============================================ */
-
-/* Remove default margins and set box-sizing for all elements */
-*,
-*::before,
-*::after {
+/* === RESET === */
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* 
- * Root variables for consistent theming
- * Easy to customize colors and spacing
- */
+/* === DESIGN TOKENS === */
 :root {
-  /* Color palette */
-  --color-bg-primary: #1a1a1a;      /* Main background (dark) */
-  --color-bg-secondary: #2d2d2d;    /* Sidebar background */
-  --color-bg-canvas: #0d0d0d;       /* Canvas container background */
-  --color-text-primary: #ffffff;     /* Primary text color */
-  --color-text-secondary: #a0a0a0;   /* Secondary/muted text */
-  --color-accent: #646cff;           /* Accent color for buttons/highlights */
-  --color-accent-hover: #535bf2;     /* Accent hover state */
-  --color-border: #404040;           /* Border color */
+  /* Google Material Dark Theme */
+  --md-surface: #1e1e1e;
+  --md-surface-variant: #2d2d2d;
+  --md-surface-container: #252525;
+  --md-on-surface: #e3e3e3;
+  --md-on-surface-variant: #c4c4c4;
+  --md-primary: #a8c7fa;
+  --md-primary-container: #004a77;
+  --md-on-primary: #003258;
+  --md-outline: #8e8e8e;
+  --md-outline-variant: #444444;
   
-  /* Spacing */
-  --spacing-sm: 8px;
-  --spacing-md: 16px;
-  --spacing-lg: 24px;
-  --spacing-xl: 32px;
+  /* Spacing (8pt grid) */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
   
   /* Typography */
-  --font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-size-base: 16px;
-  --font-size-sm: 14px;
-  --font-size-lg: 18px;
-  --font-size-xl: 24px;
+  --font-family: 'Google Sans', 'Roboto', system-ui, sans-serif;
+  --font-size-sm: 12px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-title: 20px;
+  
+  /* Elevation shadows */
+  --shadow-1: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.24);
+  --shadow-2: 0 3px 6px rgba(0,0,0,0.3), 0 3px 6px rgba(0,0,0,0.23);
+  
+  /* Border radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
 }
 
-/* Base body styles */
+/* === BASE === */
 body {
   font-family: var(--font-family);
-  font-size: var(--font-size-base);
-  color: var(--color-text-primary);
-  background-color: var(--color-bg-primary);
+  font-size: var(--font-size-md);
+  color: var(--md-on-surface);
+  background-color: var(--md-surface);
   line-height: 1.5;
-  
-  /* Prevent horizontal scroll */
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* ============================================
-   MAIN LAYOUT CONTAINER
-   ============================================ */
-
-/* 
- * Main app container using flexbox
- * Creates the two-column layout
- */
+/* === LAYOUT === */
 #app {
   display: flex;
-  flex-direction: row;
-  min-height: 100vh;    /* Full viewport height */
+  min-height: 100vh;
   width: 100%;
 }
 
-/* ============================================
-   CANVAS CONTAINER (LEFT SIDE)
-   ============================================ */
-
-/* 
- * Canvas container maintains a square aspect ratio
- * Width equals the viewport height to create a perfect square
- */
+/* Canvas Container - Main animation area */
 #canvas-container {
-  /* Square dimensions: width = viewport height */
-  width: 100vh;
+  flex: 1;
   height: 100vh;
-  min-width: 300px;     /* Minimum width for very small screens */
-  
-  /* Flex properties */
-  flex-shrink: 0;       /* Don't shrink below set width */
-  
-  /* Styling */
-  background-color: var(--color-bg-canvas);
-  
-  /* Position relative for absolute canvas positioning */
+  min-width: 400px;
+  background-color: #121212;
   position: relative;
-  
-  /* Subtle border to separate from sidebar */
-  border-right: 1px solid var(--color-border);
 }
 
-/* 
- * The Rive canvas element
- * Fills the entire container
- */
 #rive-canvas {
-  /* Fill the container completely */
   width: 100%;
   height: 100%;
-  
-  /* Display as block to remove inline spacing */
   display: block;
 }
 
-/* ============================================
-   CONTROLS SIDEBAR (RIGHT SIDE)
-   ============================================ */
-
-/* 
- * Sidebar container for animation controls
- * Takes remaining width after canvas
- */
+/* Controls Sidebar */
 #controls-sidebar {
-  /* Flex to fill remaining space */
-  flex: 1;
-  min-width: 280px;     /* Minimum readable width */
-  
-  /* Full height with scroll if content overflows */
+  width: 320px;
+  min-width: 280px;
+  flex-shrink: 0;
   height: 100vh;
   overflow-y: auto;
-  
-  /* Styling */
-  background-color: var(--color-bg-secondary);
-  padding: var(--spacing-lg);
+  background-color: var(--md-surface-variant);
+  padding: var(--space-lg);
+  border-left: 1px solid var(--md-outline-variant);
 }
 
-/* Sidebar heading */
 #controls-sidebar h2 {
-  font-size: var(--font-size-xl);
-  margin-bottom: var(--spacing-lg);
-  padding-bottom: var(--spacing-md);
-  border-bottom: 1px solid var(--color-border);
+  font-size: var(--font-size-title);
+  font-weight: 500;
+  margin-bottom: var(--space-lg);
+  color: var(--md-on-surface);
+  letter-spacing: 0.15px;
 }
 
-/* Controls content wrapper */
 #controls-content {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg);
+  gap: var(--space-md);
 }
 
-/* Placeholder text when no .riv file is loaded */
 .placeholder-text {
-  color: var(--color-text-secondary);
-  font-style: italic;
+  color: var(--md-on-surface-variant);
+  font-size: var(--font-size-md);
 }
 
-/* ============================================
-   CONTROL SECTIONS
-   ============================================ */
-
-/* 
- * Individual control section styling
- * Each section groups related controls (Triggers, Booleans, Numbers)
- */
+/* === CONTROL SECTIONS === */
 .control-section {
-  background-color: var(--color-bg-primary);
-  border-radius: 8px;
-  padding: var(--spacing-md);
-  border: 1px solid var(--color-border);
+  background-color: var(--md-surface-container);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  box-shadow: var(--shadow-1);
 }
 
-/* Section headings */
 .control-section h3 {
   font-size: var(--font-size-lg);
-  margin-bottom: var(--spacing-md);
-  color: var(--color-text-secondary);
+  font-weight: 500;
+  margin-bottom: var(--space-md);
+  color: var(--md-primary);
+  letter-spacing: 0.1px;
 }
 
-/* Container for control items within a section */
-.control-section > div {
+/* === ENUM CONTROLS === */
+.enum-control {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm);
+  gap: var(--space-md);
 }
 
-/* ============================================
-   BUTTON STYLES
-   ============================================ */
-
-/* 
- * Base button styling for triggers
- */
-.trigger-button {
-  background-color: var(--color-accent);
-  color: var(--color-text-primary);
-  border: none;
-  border-radius: 6px;
-  padding: var(--spacing-sm) var(--spacing-md);
-  font-size: var(--font-size-base);
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.trigger-button:hover {
-  background-color: var(--color-accent-hover);
-}
-
-.trigger-button:active {
-  transform: scale(0.98);
-}
-
-/* ============================================
-   TOGGLE/CHECKBOX STYLES
-   ============================================ */
-
-/* 
- * Boolean toggle container
- */
-.boolean-control {
+.enum-current-value {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: var(--spacing-sm);
-  background-color: var(--color-bg-secondary);
-  border-radius: 4px;
-}
-
-.boolean-control label {
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--md-primary-container);
+  border-radius: var(--radius-full);
   font-size: var(--font-size-sm);
+  width: fit-content;
 }
 
-/* Custom toggle switch styling */
-.toggle-switch {
-  width: 48px;
-  height: 24px;
-  cursor: pointer;
-  accent-color: var(--color-accent);
+.current-label {
+  color: var(--md-on-surface-variant);
 }
 
-/* ============================================
-   SLIDER/NUMBER INPUT STYLES
-   ============================================ */
+.current-value {
+  color: var(--md-primary);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
 
-/* 
- * Number input container
- */
-.number-control {
+.enum-button-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-sm);
+}
+
+/* Material button styling */
+.enum-button {
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-sm);
-  background-color: var(--color-bg-secondary);
-  border-radius: 4px;
-}
-
-.number-control label {
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  background-color: var(--md-surface-variant);
+  color: var(--md-on-surface-variant);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm) var(--space-sm);
+  font-family: var(--font-family);
   font-size: var(--font-size-sm);
-  display: flex;
-  justify-content: space-between;
-}
-
-/* Value display next to label */
-.number-value {
-  color: var(--color-accent);
-  font-weight: bold;
-}
-
-/* Range slider styling */
-.number-slider {
-  width: 100%;
-  height: 8px;
+  font-weight: 500;
   cursor: pointer;
-  accent-color: var(--color-accent);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-height: 40px;
 }
 
-/* ============================================
-   RESPONSIVE ADJUSTMENTS
-   ============================================ */
+.enum-button:hover {
+  background-color: var(--md-surface-container);
+  border-color: var(--md-outline);
+  color: var(--md-on-surface);
+}
 
-/* 
- * For smaller screens, stack the layout vertically
- */
+.enum-button.active {
+  background-color: var(--md-primary);
+  color: var(--md-on-primary);
+  border-color: var(--md-primary);
+  box-shadow: var(--shadow-2);
+}
+
+.enum-button:active {
+  transform: scale(0.96);
+}
+
+.btn-text {
+  flex: 1;
+  text-align: center;
+}
+
+/* Keyboard shortcut badge */
+.key-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background-color: rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.enum-button.active .key-badge {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* === RESPONSIVE === */
 @media (max-width: 768px) {
   #app {
     flex-direction: column;
   }
   
   #canvas-container {
-    /* On mobile, use full width and maintain square */
     width: 100vw;
     height: 100vw;
     min-width: unset;
-    border-right: none;
-    border-bottom: 1px solid var(--color-border);
   }
   
   #controls-sidebar {
+    width: 100%;
     height: auto;
-    min-height: 50vh;
+    min-height: 40vh;
+    border-left: none;
+    border-top: 1px solid var(--md-outline-variant);
+  }
+  
+  .enum-button-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
