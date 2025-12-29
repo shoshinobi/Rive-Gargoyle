@@ -1,0 +1,308 @@
+/**
+ * ============================================
+ * RIVE GARGOYLE - Main Stylesheet
+ * ============================================
+ * 
+ * Layout Structure:
+ * - Two-column flexbox layout
+ * - Left: Square aspect ratio canvas (full viewport height)
+ * - Right: Scrollable controls sidebar
+ */
+
+/* ============================================
+   CSS RESET & BASE STYLES
+   ============================================ */
+
+/* Remove default margins and set box-sizing for all elements */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 
+ * Root variables for consistent theming
+ * Easy to customize colors and spacing
+ */
+:root {
+  /* Color palette */
+  --color-bg-primary: #1a1a1a;      /* Main background (dark) */
+  --color-bg-secondary: #2d2d2d;    /* Sidebar background */
+  --color-bg-canvas: #0d0d0d;       /* Canvas container background */
+  --color-text-primary: #ffffff;     /* Primary text color */
+  --color-text-secondary: #a0a0a0;   /* Secondary/muted text */
+  --color-accent: #646cff;           /* Accent color for buttons/highlights */
+  --color-accent-hover: #535bf2;     /* Accent hover state */
+  --color-border: #404040;           /* Border color */
+  
+  /* Spacing */
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  
+  /* Typography */
+  --font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-size-base: 16px;
+  --font-size-sm: 14px;
+  --font-size-lg: 18px;
+  --font-size-xl: 24px;
+}
+
+/* Base body styles */
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  line-height: 1.5;
+  
+  /* Prevent horizontal scroll */
+  overflow-x: hidden;
+}
+
+/* ============================================
+   MAIN LAYOUT CONTAINER
+   ============================================ */
+
+/* 
+ * Main app container using flexbox
+ * Creates the two-column layout
+ */
+#app {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;    /* Full viewport height */
+  width: 100%;
+}
+
+/* ============================================
+   CANVAS CONTAINER (LEFT SIDE)
+   ============================================ */
+
+/* 
+ * Canvas container maintains a square aspect ratio
+ * Width equals the viewport height to create a perfect square
+ */
+#canvas-container {
+  /* Square dimensions: width = viewport height */
+  width: 100vh;
+  height: 100vh;
+  min-width: 300px;     /* Minimum width for very small screens */
+  
+  /* Flex properties */
+  flex-shrink: 0;       /* Don't shrink below set width */
+  
+  /* Styling */
+  background-color: var(--color-bg-canvas);
+  
+  /* Position relative for absolute canvas positioning */
+  position: relative;
+  
+  /* Subtle border to separate from sidebar */
+  border-right: 1px solid var(--color-border);
+}
+
+/* 
+ * The Rive canvas element
+ * Fills the entire container
+ */
+#rive-canvas {
+  /* Fill the container completely */
+  width: 100%;
+  height: 100%;
+  
+  /* Display as block to remove inline spacing */
+  display: block;
+}
+
+/* ============================================
+   CONTROLS SIDEBAR (RIGHT SIDE)
+   ============================================ */
+
+/* 
+ * Sidebar container for animation controls
+ * Takes remaining width after canvas
+ */
+#controls-sidebar {
+  /* Flex to fill remaining space */
+  flex: 1;
+  min-width: 280px;     /* Minimum readable width */
+  
+  /* Full height with scroll if content overflows */
+  height: 100vh;
+  overflow-y: auto;
+  
+  /* Styling */
+  background-color: var(--color-bg-secondary);
+  padding: var(--spacing-lg);
+}
+
+/* Sidebar heading */
+#controls-sidebar h2 {
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Controls content wrapper */
+#controls-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+/* Placeholder text when no .riv file is loaded */
+.placeholder-text {
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+/* ============================================
+   CONTROL SECTIONS
+   ============================================ */
+
+/* 
+ * Individual control section styling
+ * Each section groups related controls (Triggers, Booleans, Numbers)
+ */
+.control-section {
+  background-color: var(--color-bg-primary);
+  border-radius: 8px;
+  padding: var(--spacing-md);
+  border: 1px solid var(--color-border);
+}
+
+/* Section headings */
+.control-section h3 {
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--spacing-md);
+  color: var(--color-text-secondary);
+}
+
+/* Container for control items within a section */
+.control-section > div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+/* ============================================
+   BUTTON STYLES
+   ============================================ */
+
+/* 
+ * Base button styling for triggers
+ */
+.trigger-button {
+  background-color: var(--color-accent);
+  color: var(--color-text-primary);
+  border: none;
+  border-radius: 6px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.trigger-button:hover {
+  background-color: var(--color-accent-hover);
+}
+
+.trigger-button:active {
+  transform: scale(0.98);
+}
+
+/* ============================================
+   TOGGLE/CHECKBOX STYLES
+   ============================================ */
+
+/* 
+ * Boolean toggle container
+ */
+.boolean-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-sm);
+  background-color: var(--color-bg-secondary);
+  border-radius: 4px;
+}
+
+.boolean-control label {
+  font-size: var(--font-size-sm);
+}
+
+/* Custom toggle switch styling */
+.toggle-switch {
+  width: 48px;
+  height: 24px;
+  cursor: pointer;
+  accent-color: var(--color-accent);
+}
+
+/* ============================================
+   SLIDER/NUMBER INPUT STYLES
+   ============================================ */
+
+/* 
+ * Number input container
+ */
+.number-control {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm);
+  background-color: var(--color-bg-secondary);
+  border-radius: 4px;
+}
+
+.number-control label {
+  font-size: var(--font-size-sm);
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Value display next to label */
+.number-value {
+  color: var(--color-accent);
+  font-weight: bold;
+}
+
+/* Range slider styling */
+.number-slider {
+  width: 100%;
+  height: 8px;
+  cursor: pointer;
+  accent-color: var(--color-accent);
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+/* 
+ * For smaller screens, stack the layout vertically
+ */
+@media (max-width: 768px) {
+  #app {
+    flex-direction: column;
+  }
+  
+  #canvas-container {
+    /* On mobile, use full width and maintain square */
+    width: 100vw;
+    height: 100vw;
+    min-width: unset;
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+  }
+  
+  #controls-sidebar {
+    height: auto;
+    min-height: 50vh;
+  }
+}

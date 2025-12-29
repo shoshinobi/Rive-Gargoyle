@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Responsive viewport for mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Page title -->
+    <title>Rive Gargoyle Animation</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  </head>
+  <body>
+    <!-- 
+      Main Application Container
+      Uses flexbox to create a two-column layout:
+      - Left: Square canvas container for Rive animation
+      - Right: Sidebar for animation controls
+    -->
+    <div id="app">
+      
+      <!-- 
+        Canvas Container (Left Side)
+        This div maintains a square aspect ratio and full viewport height.
+        The canvas inside will be used by the Rive SDK to render animations.
+      -->
+      <div id="canvas-container">
+        <!-- 
+          Rive Canvas Element
+          The Rive SDK will target this canvas for rendering.
+          We set id="rive-canvas" for easy JavaScript selection.
+        -->
+        <canvas id="rive-canvas"></canvas>
+      </div>
+      
+      <!-- 
+        Controls Sidebar (Right Side)
+        This container holds all UI controls for interacting with
+        the Rive animation states, inputs, and triggers.
+      -->
+      <div id="controls-sidebar">
+        <h2>Animation Controls</h2>
+        
+        <!-- 
+          Placeholder section for animation state machine inputs.
+          These will be populated dynamically once a .riv file is loaded.
+        -->
+        <div id="controls-content">
+          <p class="placeholder-text">
+            Load a .riv file to see available controls here.
+          </p>
+          
+          <!-- 
+            Example control sections (to be customized based on your .riv file):
+            - Triggers: Buttons to fire one-shot animations
+            - Booleans: Toggle switches for on/off states
+            - Numbers: Sliders or inputs for numeric values
+          -->
+          <div id="triggers-section" class="control-section">
+            <h3>Triggers</h3>
+            <div id="triggers-container">
+              <!-- Trigger buttons will be added here -->
+            </div>
+          </div>
+          
+          <div id="booleans-section" class="control-section">
+            <h3>Booleans</h3>
+            <div id="booleans-container">
+              <!-- Boolean toggles will be added here -->
+            </div>
+          </div>
+          
+          <div id="numbers-section" class="control-section">
+            <h3>Numbers</h3>
+            <div id="numbers-container">
+              <!-- Number sliders will be added here -->
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+    <!-- 
+      Main JavaScript Module
+      Type="module" allows us to use ES6 imports with Vite
+    -->
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
