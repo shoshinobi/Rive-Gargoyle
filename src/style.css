@@ -223,6 +223,46 @@ body {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
+/* === INSTRUCTIONS === */
+#instructions {
+  margin-top: var(--space-lg);
+  padding: var(--space-md);
+  background: linear-gradient(135deg, var(--md-surface-container), var(--md-surface-variant));
+  border-radius: var(--radius-md);
+  border: 1px solid var(--md-outline-variant);
+}
+
+#instructions h3 {
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--space-sm);
+  color: var(--md-on-surface);
+}
+
+#instructions p {
+  font-size: var(--font-size-sm);
+  color: var(--md-on-surface-variant);
+  margin-bottom: var(--space-sm);
+  line-height: 1.6;
+}
+
+#instructions .hint {
+  color: var(--md-primary);
+  font-style: italic;
+  margin-bottom: 0;
+}
+
+#instructions kbd {
+  display: inline-block;
+  padding: 2px 6px;
+  font-family: var(--font-family);
+  font-size: 11px;
+  font-weight: 600;
+  background-color: var(--md-surface-variant);
+  border: 1px solid var(--md-outline);
+  border-radius: 4px;
+  box-shadow: 0 1px 0 var(--md-outline-variant);
+}
+
 /* === RESPONSIVE === */
 @media (max-width: 768px) {
   #app {
